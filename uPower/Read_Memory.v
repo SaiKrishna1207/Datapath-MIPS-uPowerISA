@@ -10,7 +10,7 @@ module read_data_memory (
 
     initial
     begin
-        $readmemb("data.mem", data_mem, 63, 0);
+        $readmemb("data.mem", data_mem, 5, 0);
     end
 
     always @ (address) 
