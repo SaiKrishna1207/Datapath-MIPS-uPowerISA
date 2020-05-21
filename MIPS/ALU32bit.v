@@ -2,12 +2,13 @@
    with the signedImm as arguments
 */
 
-module ALU32bit(ALU_result, sig_branch, AluSrc, opcode, rs_content, rt_content, shamt, funct, immediate);
+module ALU32bit(ALU_result, sig_branch, AluSrc, opcode, rs, rt, rs_content, rt_content, shamt, funct, immediate);
 	
     input [5:0] funct, opcode;
     input [4:0] shamt; // shift amount
     input [15:0] immediate;
     input [31:0] rs_content, rt_content; //inputs
+    input [4:0] rs, rt;
     output reg sig_branch, AluSrc;
     output reg [31:0] ALU_result; //Output of the ALU
 	
@@ -181,7 +182,7 @@ module ALU32bit(ALU_result, sig_branch, AluSrc, opcode, rs_content, rt_content, 
 		
     end
 
-    always @ (funct, rs_content, rt_content, shamt, immediate) 
+    always @ (funct, rs, rt, shamt, immediate) 
     begin
         $display("Opcode : %6b, RS : %32b, RT : %32b, signExtendImm = %32b, Result : %32b\n",opcode, rs_content, rt_content, signExtend, ALU_result);
     end

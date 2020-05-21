@@ -42,7 +42,7 @@ module MIPS_core(clock);
 	
     control_unit signals (RegRead, RegWrite, MemRead, MemWrite, RegDst, ALUSrc, PCSrc, MemToReg, branch_signal, opcode, funct);
 								 
-    ALU32bit alu_process (write_data, branch_signal, ALUSrc, opcode, rs_content, rt_content, shamt, funct, immediate);
+    ALU32bit alu_process (write_data, branch_signal, ALUSrc, opcode, rs, rt, rs_content, rt_content, shamt, funct, immediate);
 	
     read_data_memory dataMemory (memory_read_data, write_data, rt_content, opcode, MemRead, MemWrite, MemToReg);
 	
