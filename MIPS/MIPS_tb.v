@@ -1,26 +1,24 @@
 // MIPS test bench - To drive and simulate the entire MIPS ALU 
 `include "MIPS_core.v"
-module mips_testbench ();
+module tb_MIPS_core ();
 
-    reg clock;
+    reg clk;
     wire result;
 	
-    MIPS_core test(clock);
-
-    initial clock = 0;
+    MIPS_core test(.clock(clk));
 
     initial 
     begin 
-        #100 clock=~clock; #100 clock=~clock;
-        #100 clock=~clock; #100 clock=~clock;
-        #100 clock=~clock; #100 clock=~clock;
-        #100 clock=~clock; #100 clock=~clock;
-        #100 clock=~clock; #100 clock=~clock;
-        #100 clock=~clock; #100 clock=~clock;
-        #100 clock=~clock; #100 clock=~clock;
-        #100 clock=~clock; #100 clock=~clock;
-        #100 clock=~clock; #100 clock=~clock;
+        clk = 1'b0;
+        #600 $finish;
     end
 
+    always begin 
+        #100 clk = ~clk;
+    end
+
+    // always @(clk) begin
+    //     $display("Clock : %1b", clk);
+    // end
 
 endmodule

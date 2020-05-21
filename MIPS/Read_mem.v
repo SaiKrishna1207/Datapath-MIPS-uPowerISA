@@ -5,14 +5,16 @@ module read_data_memory(
     output reg [31:0] read_data,  //The data read from the main memory (from the given address)
     input  [31:0] address, write_data, //The ADDRESS and WRITE_DATA are inputs to this module after ALU processing
     input [5:0] opcode,
-    input MemRead,MemWrite     // Read and Write signals to main memory
+    input MemRead,MemWrite,MemToReg    // Read and Write signals to main memory
 );
 	
     reg [31:0] data_mem [255:0];   // The contents of the main memory
+    reg [31:0] reg_mem [31:0];
 	
     initial    //Read the current contents of the main memory
     begin
         $readmemb("data.mem", data_mem, 31 ,0); // adjust according to the number of entries in data.mem
+        $readmemb("registers.mem", reg_mem, 31, 0); //32 registers so..
     end
 	
     always @(address) begin
@@ -36,4 +38,14 @@ module read_data_memory(
             read_data = data_mem[address];
         end
     end	
+
+    always @(address) begin                         //Storing what we read into the registers file.
+        if(MemToReg) begin
+            reg_mem[address] = read_data;
+            $writememb("registers.mem", reg_mem);
+        end
+        else begin
+            reg_mem[address] = write_data;
+        end
+    end
 endmodule

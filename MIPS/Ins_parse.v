@@ -20,6 +20,7 @@ module ins_parser(
             rt = instruction[20:16];
             rs = instruction[25:21];
             funct = instruction[5:0];
+            // $display("shamt : %5b--- rd : %5b --- rt : %5b --- rs : %5b --- funct : %6b, PC: %32b", shamt, rd, rt, rs, funct, p_count);
         end
         else if(opcode == 6'h2 | opcode == 6'h3) 
         begin   // J-type

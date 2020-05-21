@@ -17,8 +17,24 @@ module control_unit(
                 MemWrite,
                 RegDst, // if this is 0 select rt, otherwise select rd
                 Branch,
+                ALUSrc,
+                PCSrc,
+                MemToReg,
     input [5:0] opcode, funct
 );
+
+    initial begin
+        MemRead  = 1'b0;
+        MemWrite = 1'b0;
+        RegWrite = 1'b0;
+        RegRead  = 1'b0;
+        RegDst   = 1'b0;
+        Branch   = 1'b0;
+        ALUSrc   = 1'b0;
+        PCSrc    = 1'b0;
+        MemToReg = 1'b0;
+		
+    end
 	
     always @(opcode, funct) 
     begin
@@ -29,6 +45,9 @@ module control_unit(
         RegRead  = 1'b0;
         RegDst   = 1'b0;
         Branch   = 1'b0;
+        ALUSrc   = 1'b0;
+        PCSrc    = 1'b0;
+        MemToReg = 1'b0;
 		
         // R type
         if(opcode == 6'h0) begin
@@ -38,35 +57,42 @@ module control_unit(
             if(funct != 6'h08) begin
                 RegWrite = 1'b1;
             end
+            // $display("RegWrite : %1b, RegDst : %1b, RegRead : %1b", RegWrite, RegDst, RegRead);
         end
         // LUI(load unsigned immediate) => no need to read any register => immediate value is written to a register
-        if(opcode != 6'b001111) begin
-            RegRead = 1'b1;
+        else if(opcode == 6'b001111) begin
+            RegWrite = 1'b1;
+            ALUSrc   = 1'b1;
         end
         // If r-type, don't enter this block
         // For r-type, beq, bne, sb, sh and sw there is no need to register write
-        if(opcode != 6'h0 & opcode != 6'h4 & opcode != 6'h5 & opcode != 6'h28 & opcode != 6'h29 & opcode != 6'h2b) begin
+        else if(opcode != 6'h0 & opcode != 6'h4 & opcode != 6'h5 & opcode != 6'h28 & opcode != 6'h29 & opcode != 6'h2b) begin
             RegWrite = 1'b1;
-            RegDst   = 1'b0;
         end
         // For branch instructions
-        if(opcode == 6'h4 | opcode == 6'h5) begin
+        else if(opcode == 6'h4 | opcode == 6'h5) begin
             Branch   = 1'b1;
         end
         // For memory write operation
         // sb, sh and sw use memory to write
-        if(opcode != 6'h0 & (opcode == 6'h28 | opcode == 6'h29 | opcode == 6'h2b)) begin
+        else if(opcode != 6'h0 & (opcode == 6'h28 | opcode == 6'h29 | opcode == 6'h2b)) begin
             MemWrite = 1'b1;
             RegRead  = 1'b1;
+            ALUSrc   = 1'b1;
         end
         // For memory read operation
         // lw, 
-        if(opcode != 6'h0 & (opcode == 6'h23))begin
+        else if(opcode != 6'h0 & (opcode == 6'h23))begin
             MemRead = 1'b1;
+            ALUSrc  = 1'b1;
+            MemToReg= 1'b1;
+            RegWrite= 1'b1;
         end
         // J type
-        // Do nothing!..
-        // All signals already 0.
+        else
+        begin
+            PCSrc = 1'b1;
+        end
     end
 	
 	

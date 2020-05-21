@@ -13,12 +13,13 @@ module read_registers(
 	
     initial begin
         $readmemb("registers.mem", registers);   //Reads all the values stored in the 32 registers
+        // assign write_data = 32'b0;
     end
 	
-    always @(write_data) begin    // If a change in the data to be written is noticed
+    always @(rd, write_data) begin    // If a change in the data to be written is noticed
         if(RegWrite) begin
-            /* RegWrite = 0 => Write to RT
-               RegWrite = 1 => Write to RD
+            /* RegDst = 0 => Write to RT
+               RegDst = 1 => Write to RD
             */
             if(RegDst) begin
                 if(opcode == 6'h24)begin    // LBU(load byte unsigned) or LHU (Load halfword unsigned)
@@ -42,16 +43,19 @@ module read_registers(
                     registers[rt] = write_data;
                 end
             end
+
             // Write back the updated values to the registers file
             $writememb("registers.mem",registers);
+            // $display("Reg 1 : %32b, Reg2 : %32b, Reg3 : %32b", registers[0], registers[1], registers[2]);
         end
     end
-	
-    always @(read_data_1, read_data_2) begin
+
+    always @(rs, rt) begin
         // Read from registers
         if(RegRead) begin
             read_data_1 = registers[rs];
             read_data_2 = registers[rt];
+            // $display("RS : %32b, RT : %32b", read_data_1, read_data_2);
         end
     end
 endmodule

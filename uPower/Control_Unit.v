@@ -17,6 +17,10 @@ module control_unit(
                 MemRead,
                 MemWrite,
                 Branch,
+                RegDst,
+                MemToReg,
+                ALUSrc,
+                PCSrc,
     input [5:0] opcode,
     input [9:0] xox,
     input [8:0] xoxo, 
@@ -30,6 +34,7 @@ module control_unit(
         RegRead = 1'b0;
         RegWrite = 1'b0;
         Branch = 1'b0;
+        RegDst = 1'b0;
     end
     
     always @(opcode, xoxo, xox, xods)
@@ -37,6 +42,7 @@ module control_unit(
         //X OR XO Format
         if(opcode == 6'd31) 
         begin
+            RegDst = 1'b1;
             RegRead = 1'b1;
             RegWrite = 1'b1;
         end

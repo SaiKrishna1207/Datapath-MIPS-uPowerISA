@@ -32,7 +32,7 @@ wire [1:0] xods;
 
 //Signals
 
-wire RegRead, RegWrite, RegDst, MemRead, MemWrite, Branch;
+wire RegRead, RegWrite, RegDst, MemRead, MemWrite, Branch, MemToReg, ALUSrc, PCSrc;
 
 //Register contents
 wire [63:0] write_data, rs_content, rt_content, memory_read_data;
@@ -42,7 +42,7 @@ read_instructions InstructionMemory(instruction, PC);
 
 ins_parse Parse(opcode, rs, rt, rd, bo, bi, aa, lk, rc, oe, xox, xoxo, si, bd, ds, xods, li, instruction, PC);
 
-control_unit Signals(RegRead, RegWrite, MemRead, MemWrite, Branch, opcode, xox, xoxo, xods);
+control_unit Signals(RegRead, RegWrite, MemRead, MemWrite, Branch, RegDst, MemToReg, ALU_Src, PCSrc, opcode, xox, xoxo, xods);
 
 ALU64bit ALU(write_data, Branch, opcode, rs, rt, bo, bi, si, ds, xox, xoxo, aa, xods);
 

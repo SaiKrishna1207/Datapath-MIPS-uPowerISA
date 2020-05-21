@@ -2,13 +2,13 @@
    with the signedImm as arguments
 */
 
-module ALU32bit(ALU_result, sig_branch, opcode, rs_content, rt_content, shamt, funct, immediate);
+module ALU32bit(ALU_result, sig_branch, AluSrc, opcode, rs_content, rt_content, shamt, funct, immediate);
 	
     input [5:0] funct, opcode;
     input [4:0] shamt; // shift amount
     input [15:0] immediate;
     input [31:0] rs_content, rt_content; //inputs
-    output reg sig_branch;
+    output reg sig_branch, AluSrc;
     output reg [31:0] ALU_result; //Output of the ALU
 	
     integer i; //Loop counter
@@ -16,13 +16,18 @@ module ALU32bit(ALU_result, sig_branch, opcode, rs_content, rt_content, shamt, f
     reg signed [31:0] temp, signed_rs, signed_rt; 
     reg [31:0] signExtend, zeroExtend;
 
+    // initial begin
+    //     rs_content = 32'b0;
+    //     rt_content = 32'b0;
+    // end
+
     always @ (funct, rs_content, rt_content, shamt, immediate) begin
 		
 		
         // Signed value assignment
         signed_rs = rs_content;
         signed_rt = rt_content;
-			
+		// $monitor("rs : %32b, rt : %32b", rs_content, rt_content);
 			
         // R-type instruction
         if(opcode == 6'h0) begin
@@ -30,8 +35,10 @@ module ALU32bit(ALU_result, sig_branch, opcode, rs_content, rt_content, shamt, f
             case(funct)
 			
                 6'h20 : //ADD
+                    begin
                     ALU_result = signed_rs + signed_rt;
-				
+                    // $display("rs : %32b, rt : %32b", rs_content, rt_content);
+                    end
                 6'h21 : //ADDU - Add unsigned
                     ALU_result = rs_content + rt_content;
 					
@@ -164,7 +171,7 @@ module ALU32bit(ALU_result, sig_branch, opcode, rs_content, rt_content, shamt, f
                 6'h24 : // LBU - Load 
                     ALU_result = signed_rs + signExtend;
                 6'h25 : // LHU - Load halfword unsigned
-                    ALU_result = signed_rs + signExtend;
+                    ALU_result = signed_rs + zeroExtend;
                 6'h30 : // LL - Load linked
                     ALU_result = signed_rs + signExtend;
 				
@@ -173,12 +180,10 @@ module ALU32bit(ALU_result, sig_branch, opcode, rs_content, rt_content, shamt, f
         end
 		
     end
-	
-	
-    initial 
+
+    always @ (funct, rs_content, rt_content, shamt, immediate) 
     begin
-        $monitor("Opcode : %6b, RS : %32b, RT : %32b, signExtendImm = %32b, Result : %32b\n",
-        opcode, rs_content, rt_content, signExtend, ALU_result);
+        $display("Opcode : %6b, RS : %32b, RT : %32b, signExtendImm = %32b, Result : %32b\n",opcode, rs_content, rt_content, signExtend, ALU_result);
     end
 	
 endmodule
