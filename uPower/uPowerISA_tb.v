@@ -1,24 +1,21 @@
 
+`include "uPowerISA_Core.v"
+
 // uPowerISA test bench - To drive and simulate the entire MIPS ALU 
 module uPower_testbench();
 
-reg clock;
-wire result;
+reg clk;
 
-uPower_core(clock);
-initial clock = 0;
+uPower_core lezgo(clk);
 
 initial 
- begin
-#100 clock=~clock; #100 clock=~clock;
-#100 clock=~clock; #100 clock=~clock;
-#100 clock=~clock; #100 clock=~clock;
-#100 clock=~clock; #100 clock=~clock;
-#100 clock=~clock; #100 clock=~clock;
-#100 clock=~clock; #100 clock=~clock;
-#100 clock=~clock; #100 clock=~clock;
-#100 clock=~clock; #100 clock=~clock;
-#100 clock=~clock; #100 clock=~clock;
- end
+begin 
+    clk = 1'b0;
+    #50 $finish;
+end
+
+always begin 
+    #10 clk = ~clk;
+end
 
 endmodule

@@ -32,23 +32,23 @@ wire [1:0] xods;
 
 //Signals
 
-wire RegRead, RegWrite, RegDst, MemRead, MemWrite, Branch, MemToReg, ALUSrc, PCSrc;
+wire RegRead, RegWrite, MemRead, MemWrite, Branch, MemToReg, ALUSrc, PCSrc;
 
 //Register contents
-wire [63:0] write_data, rs_content, rt_content, memory_read_data;
+wire [63:0] write_data, rs_content, rt_content, rd_content, memory_read_data;
 
 //Instantiating all necessary modules
 read_instructions InstructionMemory(instruction, PC);
 
 ins_parse Parse(opcode, rs, rt, rd, bo, bi, aa, lk, rc, oe, xox, xoxo, si, bd, ds, xods, li, instruction, PC);
 
-control_unit Signals(RegRead, RegWrite, MemRead, MemWrite, Branch, RegDst, MemToReg, ALU_Src, PCSrc, opcode, xox, xoxo, xods);
+control_unit Signals(RegRead, RegWrite, MemRead, MemWrite, Branch, MemToReg, ALU_Src, PCSrc, opcode, xox, xoxo, xods);
 
-ALU64bit ALU(write_data, Branch, opcode, rs, rt, bo, bi, si, ds, xox, xoxo, aa, xods);
+ALU64bit ALU(write_data, Branch, ALUSrc, rs_content, rt_content, opcode, rs, rt, rd, bo, bi, si, ds, xox, xoxo, aa, xods);
 
-read_data_memory MainMemory(memory_read_data, write_data, rs_content, opcode, MemWrite, MemRead);
+read_data_memory MainMemory(memory_read_data, write_data, rd_content, rd, opcode, MemWrite, MemRead, MemToReg);
 
-read_registers Registers(rs_content, rt_content,  write_data, rs, rt, rd, opcode, RegRead, RegWrite, RegDst, clock);
+read_registers Registers(rs_content, rt_content, rd_content, write_data, rs, rt, rd, bo, bi, opcode, RegRead, RegWrite, clock);
 
 // PC operations - The next instruction is read only when the clock is at positive edge
 
@@ -56,10 +56,20 @@ always @(posedge clock)
  begin
      if(opcode == 6'd18)
        PC = {{8{1'b0}},li};
-     else if(write_data == 0 & Branch == 1)
+     
+     else if(write_data == 0 & Branch == 1 & aa == 0 & opcode == 6'd19)           //Branch Conditional
        PC = PC + 1 + $signed(bd);
+
+     else if(write_data == 0 & Branch == 1 & aa == 1 & opcode == 6'd19)          //Branch Absolute
+       PC = $signed(bd);
+
+     else if(write_data == 0 & Branch == 1 & aa == 1 & opcode == 6'd18)
+       PC = $signed(li);
+
+     else if(write_data == 0 & Branch == 1 & aa == 0 & opcode == 6'd18)
+       PC = PC + 1 + $signed(li);
      else 
-       PC = PC +1 ;
+       PC = PC + 1;
  end
 
 

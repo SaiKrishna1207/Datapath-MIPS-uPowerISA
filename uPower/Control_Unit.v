@@ -17,7 +17,6 @@ module control_unit(
                 MemRead,
                 MemWrite,
                 Branch,
-                RegDst,
                 MemToReg,
                 ALUSrc,
                 PCSrc,
@@ -34,32 +33,33 @@ module control_unit(
         RegRead = 1'b0;
         RegWrite = 1'b0;
         Branch = 1'b0;
-        RegDst = 1'b0;
-    end
-    
-    always @(opcode, xoxo, xox, xods)
-    begin
+        ALUSrc = 1'b0;
+        PCSrc = 1'b0;
+        MemToReg = 1'b0;
         //X OR XO Format
         if(opcode == 6'd31) 
         begin
-            RegDst = 1'b1;
+            // $display("HOI\n");
             RegRead = 1'b1;
-            RegWrite = 1'b1;
+            RegWrite = 1'b1;        
         end
 
         //D Format - ALU Only 
         else if(opcode == 6'd14 | opcode == 6'd15 |opcode == 6'd28 |opcode == 6'd24 |opcode == 6'd26)
         begin
-            RegRead = 1'b1;
             RegWrite = 1'b1;
+            ALUSrc = 1'b1;
         end
 
         //D Format Loads and DS load
         else if(opcode == 6'd58 | opcode == 6'd32 |opcode == 6'd40 |opcode == 6'd42 |opcode == 6'd34)
         begin
             RegRead = 1'b1;
-            RegWrite = 1'b1;
+            // RegWrite = 1'b1;    
             MemRead = 1'b1;
+            MemToReg = 1'b1;
+            ALUSrc = 1'b1;
+            // $display("RegRead : %1b, RegWrite : %1b, MemRead : %1b, MemToReg : %1b.", RegRead, RegWrite, MemRead, MemToReg);
         end
 
         //D-Format Stores and DS Store
@@ -67,18 +67,21 @@ module control_unit(
         begin
             RegRead = 1'b1;
             MemWrite = 1'b1;
+            ALUSrc = 1'b1;
         end
 
         //Unconditonal Branch
         else if(opcode == 6'd18)
         begin
             Branch = 1'b1;
+            PCSrc = 1'b1;
         end
 
         //Conditional Branch
         else if(opcode == 6'd19)
         begin
             Branch = 1'b1;
+            PCSrc = 1'b1;
             RegRead = 1'b1;
         end
     end

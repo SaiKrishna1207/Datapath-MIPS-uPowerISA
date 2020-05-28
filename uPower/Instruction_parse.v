@@ -19,13 +19,29 @@ module ins_parse(
 
     always @(instruction) 
     begin
-
+        rs = 5'b00000;
+        rt = 5'b00000;
+        rd = 5'b00000;
+        bo = 5'b00000;
+        bi = 5'b00000;
+        aa = 1'b0;
+        lk = 1'b0;
+        rc = 1'b0;
+        oe = 1'b0;
+        xox = 10'b0000000000;
+        xoxo = 9'b000000000;
+        si = 16'b0000000000000000;
+        bd = 14'b00000000000000;
+        ds = 14'b00000000000000;
+        xods = 2'b00;
+        li = 24'b000000000000000000000000;
         //XO
         if(opcode == 6'd31 & (instruction[9:1] == 9'd266 | instruction[9:1] == 9'd40))
         begin
+            // $display("HI\n");
             rd = instruction[25:21];
-            rt = instruction[20:16];
-            rs = instruction[15:11];
+            rs = instruction[20:16];
+            rt = instruction[15:11];
             oe = instruction[10];
             xoxo = instruction[9:1];
             rc = instruction[0];
@@ -35,8 +51,8 @@ module ins_parse(
         else if(opcode == 6'd31)
         begin
             rd = instruction[25:21];
-            rt = instruction[20:16];
-            rs = instruction[15:11];
+            rs = instruction[20:16];
+            rt = instruction[15:11];
             xox = instruction[10:1];
             rc = instruction[0];
         end
@@ -45,8 +61,9 @@ module ins_parse(
         else if(opcode == 6'd14 | opcode == 6'd15 | opcode == 6'd28 | opcode == 6'd24 | opcode == 6'd26 | opcode == 6'd32 | opcode == 6'd36 | opcode == 6'd37 |opcode == 6'd40 | opcode == 6'd42 |opcode == 6'd44 |opcode == 6'd34 |opcode == 6'd38)
         begin
             rd = instruction[25:21];
-            rt = instruction[20:16];   
+            rs = instruction[20:16];   
             si = instruction[15:0];
+            // $display("RD : %5b\n, RS : %5b\n", rd, rs);
         end
 
         //B
@@ -71,7 +88,7 @@ module ins_parse(
         else
         begin
             rd = instruction[25:21];
-            rt = instruction[20:16];
+            rs = instruction[20:16];
             ds = instruction[15:2];
             xods = instruction[1:0];
         end
