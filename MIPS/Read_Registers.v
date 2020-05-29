@@ -11,12 +11,9 @@ module read_registers(
 
     reg [31:0] registers [31:0];    // The set of 32 registers (32-bit)
 	
-    initial begin
-        $readmemb("registers.mem", registers);   //Reads all the values stored in the 32 registers
-        // assign write_data = 32'b0;
-    end
-	
     always @(rd, write_data) begin    // If a change in the data to be written is noticed
+        
+        $readmemb("registers.mem", registers);   //Reads all the values stored in the 32 registers
         if(RegWrite) begin
             /* RegDst = 0 => Write to RT
                RegDst = 1 => Write to RD
@@ -52,6 +49,7 @@ module read_registers(
 
     always @(rs, rt) begin
         // Read from registers
+        $readmemb("registers.mem", registers);   //Reads all the values stored in the 32 registers
         if(RegRead) begin
             read_data_1 = registers[rs];
             read_data_2 = registers[rt];

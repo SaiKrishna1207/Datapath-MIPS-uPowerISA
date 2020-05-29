@@ -23,19 +23,6 @@ module control_unit(
     input [5:0] opcode, funct
 );
 
-    initial begin
-        MemRead  = 1'b0;
-        MemWrite = 1'b0;
-        RegWrite = 1'b0;
-        RegRead  = 1'b0;
-        RegDst   = 1'b0;
-        Branch   = 1'b0;
-        ALUSrc   = 1'b0;
-        PCSrc    = 1'b0;
-        MemToReg = 1'b0;
-		
-    end
-	
     always @(opcode, funct) 
     begin
 	    // Reset the signals to 0
@@ -86,7 +73,7 @@ module control_unit(
             MemRead = 1'b1;
             ALUSrc  = 1'b1;
             MemToReg= 1'b1;
-            RegWrite= 1'b1;
+            RegRead = 1'b1;
         end
         // J type
         else

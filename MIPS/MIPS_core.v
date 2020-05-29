@@ -44,7 +44,7 @@ module MIPS_core(clock);
 								 
     ALU32bit alu_process (write_data, branch_signal, ALUSrc, opcode, rs, rt, rs_content, rt_content, shamt, funct, immediate);
 	
-    read_data_memory dataMemory (memory_read_data, write_data, rt_content, opcode, MemRead, MemWrite, MemToReg);
+    read_data_memory dataMemory (memory_read_data, write_data, rs_content, opcode, rs, MemRead, MemWrite, MemToReg);
 	
     read_registers contents (rs_content, rt_content, write_data, rs, rt, rd, opcode, RegRead, RegWrite, RegDst, clock);
 	

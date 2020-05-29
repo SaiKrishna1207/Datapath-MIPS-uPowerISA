@@ -9,12 +9,12 @@ module read_instructions(instruction, program_counter);
     reg [31:0] instructions[2:0];  //set to the number of instructions in the file
 	
     initial begin 
-        $readmemb("instructions.mem", instructions, 2, 0); 
+        $readmemb("instructions.mem", instructions, 0, 2); 
     end
 	
     always @ (program_counter) begin
         instruction = instructions[program_counter];
-        $display("Instruction : %32b , PC : %32b", instruction, program_counter);
+        // $display("Instruction : %32b , PC : %32b", instruction, program_counter);
     end
 
 endmodule

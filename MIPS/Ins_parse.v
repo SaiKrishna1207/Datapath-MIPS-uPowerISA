@@ -13,6 +13,15 @@ module ins_parser(
     assign opcode = instruction[31:26];
 	
     always @(instruction) begin
+
+        rs = 5'b00000;
+        rt = 5'b00000;
+        rd = 5'b00000;
+        shamt = 5'b00000;
+        funct = 6'b000000;
+        immediate = 16'b0000000000000000;
+        address = 26'b00000000000000000000000000;
+
         if(opcode == 6'h0) 
         begin        //R-type 
             shamt = instruction[10:6];

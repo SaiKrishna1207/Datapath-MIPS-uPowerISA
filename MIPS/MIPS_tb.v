@@ -3,7 +3,6 @@
 module tb_MIPS_core ();
 
     reg clk;
-    wire result;
 	
     MIPS_core test(.clock(clk));
 
