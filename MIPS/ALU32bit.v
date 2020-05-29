@@ -162,19 +162,19 @@ module ALU32bit(ALU_result, sig_branch, AluSrc, opcode, rs, rt, rs_content, rt_c
                         end
                     end
                 6'h28 : // SB - Store byte
-                    ALU_result = signed_rt + signExtend;
+                    ALU_result = signed_rs + signExtend;
                 6'h29 : // SH -Store halfword
-                    ALU_result = signed_rt + signExtend;
+                    ALU_result = signed_rs + signExtend;
                 6'h2b : // SW - Store Word
-                    ALU_result = signed_rt + signExtend;
+                    ALU_result = signed_rs + signExtend;
                 6'h23 : // LW - Load Word
-                    ALU_result = signed_rt + signExtend;
+                    ALU_result = signed_rs + signExtend;
                 6'h24 : // LBU - Load 
-                    ALU_result = signed_rt + signExtend;
+                    ALU_result = signed_rs + signExtend;
                 6'h25 : // LHU - Load halfword unsigned
-                    ALU_result = signed_rt + zeroExtend;
+                    ALU_result = signed_rs + zeroExtend;
                 6'h30 : // LL - Load linked
-                    ALU_result = signed_rt + signExtend;
+                    ALU_result = signed_rs + signExtend;
 				
             endcase
 		
