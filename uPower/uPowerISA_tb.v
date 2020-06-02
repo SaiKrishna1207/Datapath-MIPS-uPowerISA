@@ -11,7 +11,7 @@ uPower_core lezgo(clk);
 initial 
 begin 
     clk = 1'b0;
-    #50 $finish;
+    #800 $finish;
 end
 
 always begin 

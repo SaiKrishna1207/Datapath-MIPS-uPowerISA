@@ -57,17 +57,18 @@ always @(posedge clock)
      if(opcode == 6'd18)
        PC = {{8{1'b0}},li};
      
-     else if(write_data == 0 & Branch == 1 & aa == 0 & opcode == 6'd19)           //Branch Conditional
-       PC = PC + 1 + $signed(bd);
-
+     else if(write_data == 0 & Branch == 1 & aa == 0 & opcode == 6'd19) begin          //Branch Conditional
+       PC = PC + 1 + {{50{bd[13]}}, bd};
+       $display("BD : %14d", $signed(bd));
+     end
      else if(write_data == 0 & Branch == 1 & aa == 1 & opcode == 6'd19)          //Branch Absolute
-       PC = $signed(bd);
+       PC = {{50{bd[13]}}, bd};
 
      else if(write_data == 0 & Branch == 1 & aa == 1 & opcode == 6'd18)
-       PC = $signed(li);
+       PC = {{40{li[23]}}, li};
 
      else if(write_data == 0 & Branch == 1 & aa == 0 & opcode == 6'd18)
-       PC = PC + 1 + $signed(li);
+       PC = PC + 1 + {{40{li[23]}}, li};
      else 
        PC = PC + 1;
  end

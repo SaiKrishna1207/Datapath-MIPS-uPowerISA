@@ -48,6 +48,7 @@ module control_unit(
         else if(opcode == 6'd14 | opcode == 6'd15 |opcode == 6'd28 |opcode == 6'd24 |opcode == 6'd26)
         begin
             RegWrite = 1'b1;
+            RegRead = 1'b1;
             ALUSrc = 1'b1;
         end
 

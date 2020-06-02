@@ -7,4 +7,16 @@ COA Assignment Team :
 
 (1) Sai Krishna Anand - 181CO244
 
+(2) Dhanwin Rao       - 181CO217
+
+(3) Arnav Nair        - 181CO209
+
+(4) Suhas K S         - 181CO253
+
+
+## To run the files : 
+
+(i) iverilog MIPS_tb.v (for MIPS)   or     iverilog uPowerISA_tb.v (for uPower)     ==> Run once in the respective directories only
+
+(ii) vvp a.out
 

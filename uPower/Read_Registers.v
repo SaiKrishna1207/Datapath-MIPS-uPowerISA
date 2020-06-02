@@ -24,7 +24,7 @@ module read_registers(
                 read_data_1 = registers[rs];
                 read_data_2 = registers[rt];
             end
-            else begin                              //Loads and stores
+            else begin                              //Anything with immediate
                 // $display("HERE\n");
                 read_data_1 = registers[rs];
                 read_data_3 = registers[rd];

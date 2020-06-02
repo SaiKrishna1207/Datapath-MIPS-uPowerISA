@@ -1,7 +1,6 @@
 module read_data_memory (
     output reg [63:0] read_data,
-    input [63:0] address, 
-    input [63:0] write_data,
+    input [63:0] address, write_data,
     input [4:0] rd, 
     input [5:0] opcode, 
     input MemWrite, MemRead, MemToReg

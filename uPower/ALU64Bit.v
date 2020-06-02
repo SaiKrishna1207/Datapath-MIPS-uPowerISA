@@ -24,7 +24,7 @@ module ALU64bit(
 
       signed_rs = rs_content;
       signed_rt = rt_content;
-      zeroExtendSI = {{48{1'b0}},si[15:0]};
+      zeroExtendSI = {{48{1'b0}}, si[15:0]};
       signExtendSI = {{48{si[15]}},si[15:0]};
       zeroExtendDS = {{50{1'b0}},ds[13:0]};
 
@@ -70,8 +70,7 @@ module ALU64bit(
         else if(aa == 0) //BNE
         begin
             ALU_result = signed_rs - signed_rt;
-            if(ALU_result != 0)
-            begin
+            if(ALU_result != 0) begin
               Branch = 1'b1;
               ALU_result = 1'b0;
               end
