@@ -16,7 +16,18 @@ COA Assignment Team :
 
 ## To run the files : 
 
-(i) iverilog MIPS_tb.v (for MIPS)   or     iverilog uPowerISA_tb.v (for uPower)     ==> Run once in the respective directories only
+(1) For MIPS : 
 
-(ii) vvp a.out
+    ```bash
+    $ cd MIPS/
+    $ iverilog MIPS_tb.v
+    $ vvp a.out
+    ```
 
+(2) For uPower : 
+
+    ```bash
+    $ cd uPower/
+    $ iverilog uPowerISA_tb.v
+    $ vvp a.out
+    ```
