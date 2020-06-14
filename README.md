@@ -18,7 +18,7 @@ COA Assignment Team :
 
 (1) For MIPS : 
 
-    ```bash
+    ```
     $ cd MIPS/
     $ iverilog MIPS_tb.v
     $ vvp a.out
