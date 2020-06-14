@@ -21,12 +21,9 @@ COA Assignment Team :
     $ cd MIPS/
     $ iverilog MIPS_tb.v
     $ vvp a.out
-    ```
 
 (2) For uPower : 
 
-    ```bash
     $ cd uPower/
     $ iverilog uPowerISA_tb.v
     $ vvp a.out
-    ```
