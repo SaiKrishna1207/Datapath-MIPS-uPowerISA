@@ -34,3 +34,9 @@ The 5 modules have been implemented for both ISA's. They are initialized in the 
     $ cd uPower/
     $ iverilog uPowerISA_tb.v
     $ vvp a.out
+
+## A Video Demo of Working : 
+
+(1) uPower Simulator : https://github.com/SaiKrishna1207/uPowerSimulator 
+
+(2) Datapath 	     : https://github.com/SaiKrishna1207/Datapath-MIPS-uPowerISA
