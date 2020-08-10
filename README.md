@@ -1,9 +1,6 @@
 # Datapath_MIPS_-_uPowerISA
 This repository contains datapath of the MIPS and uPowerISA.
 
-# Datapath_MIPS_-_uPowerISA
-This repository contains datapath , including the ALU and the Control Unit of the MIPS and uPowerISA.
-
 ## About : 
 
 Any Instruction Set Architecture consists of a Datapath, i.e, a set of stages from input to outut with each stage doing a specific task and passing on the output to the next stage. Datapaths can **pipelined** or **non-pipelined**. Most modern Datapaths are pipelined as it allows a higher instruction execution rate than the non-pipelined version. This implementation is a non-pipelined version of MIPS and IBM's uPower ISA. Both have been designed identically.
